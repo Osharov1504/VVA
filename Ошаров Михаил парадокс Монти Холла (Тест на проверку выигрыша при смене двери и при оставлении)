@@ -1,0 +1,22 @@
+package com.example.montyhall;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MontyHallGameTest {
+
+    @Test
+    void testWinningWithSwitching() {
+        MontyHallGameImpl game = new MontyHallGameImpl();
+        game.chooseInitialDoor();
+        game.switchDoor();
+        assertTrue(game.isWin(), "Смена выбора должна повысить шанс на победу.");
+    }
+
+    @Test
+    void testWinningWithoutSwitching() {
+        MontyHallGameImpl game = new MontyHallGameImpl();
+        game.chooseInitialDoor();
+        assertFalse(game.isWin(), "Оставление выбора должно привести к меньшему шансу на победу.");
+    }
+}
