@@ -1,0 +1,24 @@
+package com.example.montyhall;
+
+import org.junit.jupiter.api.*;
+
+class MontyHallLifecycleTest {
+
+    @BeforeEach
+    void setUp() {
+        System.out.println("Настройка игры...");
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.out.println("Завершение игры...");
+    }
+
+    @Test
+    void testExample() {
+        MontyHallGameImpl game = new MontyHallGameImpl();
+        game.chooseInitialDoor();
+        game.switchDoor();
+        assertTrue(game.isWin(), "Смена выбора должна привести к победе.");
+    }
+}
