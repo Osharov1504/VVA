@@ -1,0 +1,16 @@
+package com.example.montyhall;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MontyHallNegativeTest {
+
+    @Test
+    void testInvalidNumberOfDoors() {
+        MontyHallGameImpl game = new MontyHallGameImpl();
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.doorsCount = 1;
+            game.chooseInitialDoor();
+        }, "Игра должна выбрасывать исключение при количестве дверей меньше двух.");
+    }
+}
