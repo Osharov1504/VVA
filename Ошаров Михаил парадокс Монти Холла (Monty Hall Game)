@@ -1,0 +1,22 @@
+package com.example.montyhall;
+
+import java.util.Random;
+
+public abstract class MontyHallGame {
+    protected int doorsCount = 3;
+    protected int winningDoor;
+    protected int selectedDoor;
+    protected Random random = new Random();
+
+    public MontyHallGame() {
+        this.winningDoor = random.nextInt(doorsCount);
+    }
+
+    public abstract void chooseInitialDoor();
+
+    public abstract void switchDoor();
+
+    public boolean isWin() {
+        return selectedDoor == winningDoor;
+    }
+}
