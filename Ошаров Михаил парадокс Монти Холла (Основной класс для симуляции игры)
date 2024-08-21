@@ -1,0 +1,26 @@
+package com.example.montyhall;
+
+public class MontyHallSimulation {
+    public static void main(String[] args) {
+        int trials = 1000;
+        int winsSwitching = 0;
+        int winsStaying = 0;
+
+        for (int i = 0; i < trials; i++) {
+            MontyHallGameImpl game = new MontyHallGameImpl();
+            game.chooseInitialDoor();
+
+            if (game.isWin()) {
+                winsStaying++;
+            }
+
+            game.switchDoor();
+            if (game.isWin()) {
+                winsSwitching++;
+            }
+        }
+
+        System.out.println("Побед при смене двери: " + winsSwitching);
+        System.out.println("Побед при оставлении выбора: " + winsStaying);
+    }
+}
