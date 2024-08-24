@@ -1,0 +1,17 @@
+package org.max.composite;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import static org.junit.jupiter.api.Assertions.*;
+
+class LeafTest {
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {"document.docx", "image.png", "music.mp3"})
+    @DisplayName("Параметризованный тест создания файлов с разными именами")
+    void testLeafCreationWithDifferentNames(String fileName) {
+        Leaf file = new Leaf(fileName);
+        assertEquals(fileName, file.getName());
+    }
+}
