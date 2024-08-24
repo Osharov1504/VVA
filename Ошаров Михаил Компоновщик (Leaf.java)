@@ -1,0 +1,13 @@
+package org.max.composite;
+
+public class Leaf extends Component {
+
+    public Leaf(String name) {
+        super(name);
+    }
+
+    @Override
+    public void display(String indent) {
+        System.out.println(indent + "- " + name);
+    }
+}
