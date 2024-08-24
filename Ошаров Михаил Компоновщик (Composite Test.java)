@@ -1,0 +1,52 @@
+package org.max.composite;
+
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CompositeTest {
+
+    private Composite rootFolder;
+    private Leaf file1;
+    private Leaf file2;
+    private Composite subFolder;
+
+    @BeforeEach
+    void setUp() {
+        rootFolder = new Composite("root");
+        file1 = new Leaf("file1.txt");
+        file2 = new Leaf("file2.txt");
+        subFolder = new Composite("subFolder");
+
+        rootFolder.add(file1);
+        rootFolder.add(subFolder);
+        subFolder.add(file2);
+    }
+
+    @Test
+    @DisplayName("Тест отображения структуры папок и файлов")
+    void testDisplay() {
+        assertDoesNotThrow(() -> rootFolder.display(""));
+    }
+
+    @Test
+    @DisplayName("Тест добавления и получения дочерних компонентов")
+    void testAddAndGetChild() {
+        Leaf file3 = new Leaf("file3.txt");
+        rootFolder.add(file3);
+        assertEquals(file3, rootFolder.getChild(2));
+    }
+
+    @Test
+    @DisplayName("Тест удаления дочернего компонента")
+    void testRemove() {
+        rootFolder.remove(subFolder);
+        assertEquals(1, assertDoesNotThrow(() -> rootFolder.getChild(0)).getName().equals("file1.txt") ? 1 : 0);
+        assertThrows(IndexOutOfBoundsException.class, () -> rootFolder.getChild(1));
+    }
+
+    @Test
+    @DisplayName("Тест исключения при неправильном индексе")
+    void testGetChildWithInvalidIndex() {
+        assertThrows(IndexOutOfBoundsException.class, () -> rootFolder.getChild(5));
+    }
+}
