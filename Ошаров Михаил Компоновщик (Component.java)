@@ -1,0 +1,27 @@
+package org.max.composite;
+
+public abstract class Component {
+    protected String name;
+
+    public Component(String name) {
+        this.name = name;
+    }
+
+    public abstract void display(String indent);
+
+    public void add(Component component) {
+        throw new UnsupportedOperationException("Операция не поддерживается.");
+    }
+
+    public void remove(Component component) {
+        throw new UnsupportedOperationException("Операция не поддерживается.");
+    }
+
+    public Component getChild(int index) {
+        throw new UnsupportedOperationException("Операция не поддерживается.");
+    }
+
+    public String getName() {
+        return name;
+    }
+}
