@@ -1,0 +1,34 @@
+package org.max.composite;
+
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class LeafTest {
+
+    private Leaf file;
+
+    @BeforeEach
+    void setUp() {
+        file = new Leaf("testFile.txt");
+    }
+
+    @Test
+    @DisplayName("Тест отображения файла")
+    void testDisplay() {
+        assertDoesNotThrow(() -> file.display("   "));
+    }
+
+    @Test
+    @DisplayName("Тест UnsupportedOperationException для метода add()")
+    void testAddOperation() {
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> file.add(new Leaf("anotherFile.txt")));
+        assertEquals("Операция не поддерживается.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Тест получения имени файла")
+    void testGetName() {
+        assertEquals("testFile.txt", file.getName());
+    }
+}
