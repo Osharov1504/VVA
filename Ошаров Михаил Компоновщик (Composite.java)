@@ -1,0 +1,39 @@
+package org.max.composite;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Composite extends Component {
+
+    private List<Component> children = new ArrayList<>();
+
+    public Composite(String name) {
+        super(name);
+    }
+
+    @Override
+    public void add(Component component) {
+        children.add(component);
+    }
+
+    @Override
+    public void remove(Component component) {
+        children.remove(component);
+    }
+
+    @Override
+    public Component getChild(int index) {
+        if (index < 0 || index >= children.size()) {
+            throw new IndexOutOfBoundsException("Индекс вне допустимого диапазона.");
+        }
+        return children.get(index);
+    }
+
+    @Override
+    public void display(String indent) {
+        System.out.println(indent + "+ " + name);
+        for (Component component : children) {
+            component.display(indent + "   ");
+        }
+    }
+}
