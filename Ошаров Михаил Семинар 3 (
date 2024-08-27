@@ -1,0 +1,96 @@
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+public class ApiTests {
+
+    private static String token;
+
+    @BeforeAll
+    public static void login() {
+        RestAssured.baseURI = "https://test-stand.gb.ru";
+        
+        Response response = given()
+            .formParam("username", "aaaaa1")
+            .formParam("password", "397125bb59")
+            .when()
+            .post("/gateway/login")
+            .then()
+            .statusCode(200)
+            .extract()
+            .response();
+
+        token = response.jsonPath().getString("token");
+    }
+
+    @Test
+    public void testGetOwnPosts() {
+        given()
+            .header("X-Auth-Token", token)
+            .when()
+            .get("/api/posts?page=1&order=desc&sort=createdAt")
+            .then()
+            .statusCode(200);
+    }
+
+    @Test
+    public void testGetOtherPosts() {
+        given()
+            .header("X-Auth-Token", token)
+            .when()
+            .get("/api/posts?page=1&order=asc&sort=createdAt&owner=notMe")
+            .then()
+            .statusCode(200);
+    }
+
+    @Test
+    public void testNonExistentPostForOthers() {
+        given()
+            .header("X-Auth-Token", token)
+            .when()
+            .get("/api/posts/354648134584/?owner=notMe")
+            .then()
+            .statusCode(200)
+            .body("data", equalTo([]));
+    }
+
+    @Test
+    public void testEmptyImageInOwnPosts() {
+        given()
+            .header("X-Auth-Token", token)
+            .when()
+            .get("/api/posts/116451")
+            .then()
+            .statusCode(200)
+            .body("id", equalTo(116451))
+            .body("mainImage.id", equalTo(null));
+    }
+
+    @Test
+    public void testCheckImageInOwnPosts() {
+        given()
+            .header("X-Auth-Token", token)
+            .when()
+            .get("/api/posts/116456")
+            .then()
+            .statusCode(200)
+            .body("id", equalTo(116456))
+            .body("mainImage.id", equalTo(63231))
+            .body("createdAt", equalTo("2024-06-18"));
+    }
+
+    @Test
+    public void testNonExistentPost() {
+        given()
+            .header("X-Auth-Token", token)
+            .when()
+            .get("/api/posts/6565164324894")
+            .then()
+            .statusCode(200)
+            .body("data", equalTo([]));
+    }
+}
