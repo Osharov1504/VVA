@@ -1,0 +1,27 @@
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "products")
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
+    private Long productId;
+
+    @Column(name = "menu_name", nullable = false)
+    private String menuName;
+
+    @Column(name = "price", nullable = false)
+    private float price;
+
+    // Getters and Setters
+    public Long getProductId() { return productId; }
+    public void setProductId(Long productId) { this.productId = productId; }
+
+    public String getMenuName() { return menuName; }
+    public void setMenuName(String menuName) { this.menuName = menuName; }
+
+    public float getPrice() { return price; }
+    public void setPrice(float price) { this.price = price; }
+}
