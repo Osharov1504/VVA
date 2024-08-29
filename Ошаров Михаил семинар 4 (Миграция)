@@ -1,0 +1,12 @@
+import org.flywaydb.core.Flyway;
+
+public class DatabaseMigration {
+    public static void main(String[] args) {
+        Flyway flyway = Flyway.configure()
+            .dataSource("jdbc:sqlite:database.db", null, null)
+            .locations("filesystem:Ошаров Михаил семинар 4 (V1__create_products_table.sql)")
+            .load();
+
+        flyway.migrate();
+    }
+}
