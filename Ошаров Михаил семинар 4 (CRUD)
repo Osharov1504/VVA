@@ -1,0 +1,72 @@
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import org.junit.jupiter.api.*;
+
+public class ProductCRUDTest {
+
+    private static EntityManagerFactory emf;
+    private EntityManager em;
+
+    @BeforeAll
+    public static void setup() {
+        emf = Persistence.createEntityManagerFactory("examplePU");
+    }
+
+    @BeforeEach
+    public void init() {
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        em.getTransaction().rollback();
+        em.close();
+    }
+
+    @AfterAll
+    public static void close() {
+        emf.close();
+    }
+
+    @Test
+    public void testCreateProduct() {
+        Product product = new Product();
+        product.setMenuName("TEST PRODUCT");
+        product.setPrice(999);
+
+        em.persist(product);
+        em.flush();
+
+        Assertions.assertNotNull(product.getProductId());
+    }
+
+    @Test
+    public void testReadProduct() {
+        Product product = em.find(Product.class, 1L);
+        Assertions.assertNotNull(product);
+        Assertions.assertEquals("GOJIRA ROLL", product.getMenuName());
+    }
+
+    @Test
+    public void testUpdateProduct() {
+        Product product = em.find(Product.class, 1L);
+        product.setMenuName("UPDATED PRODUCT");
+        em.merge(product);
+        em.flush();
+
+        Product updatedProduct = em.find(Product.class, 1L);
+        Assertions.assertEquals("UPDATED PRODUCT", updatedProduct.getMenuName());
+    }
+
+    @Test
+    public void testDeleteProduct() {
+        Product product = em.find(Product.class, 1L);
+        em.remove(product);
+        em.flush();
+
+        Product deletedProduct = em.find(Product.class, 1L);
+        Assertions.assertNull(deletedProduct);
+    }
+}
