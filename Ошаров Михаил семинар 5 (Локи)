@@ -1,0 +1,23 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ApiService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ApiService.class);
+    private final ExternalService externalService;
+
+    public ApiService(ExternalService externalService) {
+        this.externalService = externalService;
+    }
+
+    public String sendRequest(String requestPayload) {
+        logger.info("Sending request with payload: {}", requestPayload);
+
+        // Логика отправки запроса
+        String response = externalService.sendData(requestPayload);
+
+        logger.info("Received response: {}", response);
+        return response;
+    }
+
+}
